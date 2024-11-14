@@ -26,5 +26,7 @@ public:
 public:
 	virtual AActor* CrearBarril(UWorld* World) override;
 	void Rodar();
-
+private:
+	UPROPERTY(VisibleAnywhere, Category = "Component")
+	class UStaticMeshComponent* BarrilMeshHielo;
 };

@@ -26,4 +26,8 @@ public:
 public:
 	virtual AActor* CrearBarril(UWorld* World) override;
 	void Rodar();
+	//colocar un mala MeshComponent
+private:
+	UPROPERTY(VisibleAnywhere,Category="Component")
+	class UStaticMeshComponent* BarrilMeshViscoso;
 };

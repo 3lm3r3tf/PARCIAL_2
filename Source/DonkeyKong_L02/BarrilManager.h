@@ -28,6 +28,7 @@ public:
 	//Crean una Instancia  de BarrilFacade
 	ABarrilFacade* BarrilFacade;
 	//Llamar a la función de la clase BarrilFacade
+	UFUNCTION(BlueprintCallable, Category = "Barriles")
 	void LlamarFuncionesBarrilFacade();
 	void RodarFuego();
 	void RodarHielo();
@@ -37,4 +38,28 @@ public:
 //creando un metodo privado para usar adapter 
 private:
 	void ConfigurarAdapter();
+
+
+private:
+	// En ABarrilManager.h
+	TArray<AActor*> BarrilesFuego;       // Array para barriles de fuego
+	TArray<AActor*> BarrilesHielo;       // Array para barriles de hielo
+	TArray<AActor*> BarrilesViscoso;     // Array para barriles viscosos
+
+	TArray<AActor*> BarrilesTotales;	 // Array para todos los barriles
+private:
+	// Variables para el número de barriles de cada tipo
+	int32 BarrilesFuegoRestantes = 4;
+	int32 BarrilesHieloRestantes = 5;
+	int32 BarrilesViscosoRestantes = 4;
+
+	// Temporizadores para bajar barriles de cada tipo
+	FTimerHandle TimerHandleFuego;
+	FTimerHandle TimerHandleHielo;
+	FTimerHandle TimerHandleViscoso;
+
+	// Funciones para spawnar barriles individuales con temporizador
+	void SpawnBarrilFuego();
+	void SpawnBarrilHielo();
+	void SpawnBarrilViscoso();
 };
