@@ -19,7 +19,7 @@
 // Sets default values
 ABarrilManager::ABarrilManager()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 
@@ -39,7 +39,12 @@ void ABarrilManager::BeginPlay()
 	GetWorldTimerManager().SetTimer(TimerHandleFuego, this, &ABarrilManager::SpawnBarrilFuego, 2.0f, true);
 	GetWorldTimerManager().SetTimer(TimerHandleHielo, this, &ABarrilManager::SpawnBarrilHielo, 3.0f, true);
 	GetWorldTimerManager().SetTimer(TimerHandleViscoso, this, &ABarrilManager::SpawnBarrilViscoso, 4.0f, true);
-	
+
+	// Configurar los temporizadores para aplicar decoradores 
+	GetWorldTimerManager().SetTimer(TimerHandleDecoradorEncender, this, &ABarrilManager::AplicarDecoradorEncender, 5.0f, true); 
+	GetWorldTimerManager().SetTimer(TimerHandleDecoradorExplota, this, &ABarrilManager::AplicarDecoradorExplota, 10.0f, true); 
+	GetWorldTimerManager().SetTimer(TimerHandleDecoradorQuema, this, &ABarrilManager::AplicarDecoradorQuema, 15.0f, true);
+
 }
 
 // Called every frame
@@ -51,70 +56,7 @@ void ABarrilManager::Tick(float DeltaTime)
 
 void ABarrilManager::LlamarFuncionesBarrilFacade()
 {
-	//if (BarrilFacade) {
-	//	//crear  10 barriles de fuego
-
-	//	AActor* BarrilFuego = BarrilFacade->CrearFuego();
-	//	if(BarrilFuego){
-	//		//mensaje en pantalla
-	//		BarrilFuego->SetActorLocation(FVector(1190.f, -600.f, 640.f));
-	//		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Red, TEXT("Barril de Fuego Creado!"));
-	//		//Crear y configurar  los diferentes decoradores
-	//		ABarrilFuegoExplotaDecorator* DecoradorExplota = GetWorld()->SpawnActor<ABarrilFuegoExplotaDecorator>(ABarrilFuegoExplotaDecorator::StaticClass());
-	//		ABarrilFuegoEncenderDecorator* DecoradorEncender = GetWorld()->SpawnActor<ABarrilFuegoEncenderDecorator>(ABarrilFuegoEncenderDecorator::StaticClass());
-	//		ABarrilFuegoQuemaDecorator* DecoradorQuema = GetWorld()->SpawnActor<ABarrilFuegoQuemaDecorator>(ABarrilFuegoQuemaDecorator::StaticClass());
-	//		//Decorar el Barril de Fuego
-	//		if (DecoradorExplota) {
-	//			DecoradorExplota->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
-	//			DecoradorExplota->Rodar();
-	//		}
-	//		if (DecoradorEncender) {
-	//			DecoradorEncender->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
-	//			DecoradorEncender->Rodar();
-	//		}
-	//		if (DecoradorQuema) {
-	//			DecoradorQuema->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
-	//			DecoradorQuema->Rodar();
-	//		}
-	//		GEngine->AddOnScreenDebugMessage(-1, 25.f, FColor::Yellow, TEXT("llamando en una solo funcionalidad............"));
-	//		if (DecoradorExplota && DecoradorEncender && DecoradorQuema) { 
-	//			// Opciones de encadenamiento // Ejemplo 1: Explota -> Encender -> Quema 
-	//			DecoradorExplota->SetBarril(Cast<IBarrilInterface>(BarrilFuego)); 
-	//			DecoradorEncender->SetBarril(DecoradorExplota); 
-	//			DecoradorQuema->SetBarril(DecoradorEncender); 
-	//			DecoradorQuema->Rodar(); 
-	//			 //Ejemplo 2: Quema -> Encender -> Explota (descomentar para usar) 
-	//		/*	DecoradorQuema->SetBarril(Cast<IBarrilInterface>(BarrilFuego)); 
-	//			DecoradorEncender->SetBarril(DecoradorQuema); 
-	//			DecoradorExplota->SetBarril(DecoradorEncender);
-	//			DecoradorExplota->Rodar(); */
-	//			// Ejemplo 3: Encender -> Quema -> Explota (descomentar para usar) 
-	//		/*	DecoradorEncender->SetBarril(Cast<IBarrilInterface>(BarrilFuego)); 
-	//			DecoradorQuema->SetBarril(DecoradorEncender); 
-	//			DecoradorExplota->SetBarril(DecoradorQuema);
-	//			DecoradorExplota->Rodar(); */
-	//			
-	//		}
-	//	}
-	//	AActor* BarrilHielo = BarrilFacade->CrearHielo();
-	//	if (BarrilHielo) {
-	//		//mensaje en pantalla
-	//		BarrilHielo->SetActorLocation(FVector(1190.f, -700.f, 640.f));
-	//		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, TEXT("Barril de Hielo Creado! "));
-	//		//configurar temporizador para RodarHielo
-	//		GetWorldTimerManager().SetTimerForNextTick(this, &ABarrilManager::RodarHielo);
-	//	}
-
-	//	AActor* BarrilViscoso = BarrilFacade->CrearViscoso();
-	//	if (BarrilViscoso) {
-	//		//mensaje en pantalla
-	//		BarrilViscoso->SetActorLocation(FVector(1190.f, -800.f, 640.f));
-	//		GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Magenta, TEXT("Barril Viscoso Creado! "));
-	//		//configurar temporizador para RodarViscoso
-	//		GetWorldTimerManager().SetTimerForNextTick(this, &ABarrilManager::RodarViscoso);
-	//	}
-	//}
-
+	
 }
 
 void ABarrilManager::RodarFuego()
@@ -154,6 +96,10 @@ void ABarrilManager::RodarBarrilDecorado(IBarrilInterface* Barril)
 	}
 }
 
+void ABarrilManager::AplicarDecoradores(AActor* BarrilFuego)
+{
+}
+
 void ABarrilManager::ConfigurarAdapter()
 {
 	//crear una instancia del adapter 
@@ -175,7 +121,7 @@ void ABarrilManager::SpawnBarrilFuego()
 		{
 			BarrilFuego->SetActorLocation(FVector(1160.f, 1200.f, 2400.f));
 			BarrilesFuego.Add(BarrilFuego);
-			
+
 			//BarrilesTotales.Add(BarrilFuego);
 
 			// Muestra mensaje de debug
@@ -202,13 +148,11 @@ void ABarrilManager::SpawnBarrilHielo()
 		if (BarrilHielo)
 		{
 			BarrilHielo->SetActorLocation(FVector(1190.f, -100.f, 1640.f));
-			BarrilesHielo.Add(BarrilHielo);
-			//BarrilesTotales.Add(BarrilHielo);
+			MapHielo.Add(ContadorUnicoHielo++, BarrilHielo);
 
-			// Muestra mensaje de debug
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Barril de Hielo Creado!"));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Barril de Hielo Creado con  MpaHielo!"));
 
-			// Configura un temporizador para destruir el barril después de 10 segundos
+			// Configura un temporizador para destruir el barril después de 5 segundos
 			FTimerHandle DestroyTimer;
 			GetWorldTimerManager().SetTimer(DestroyTimer, [BarrilHielo]()
 				{
@@ -216,10 +160,11 @@ void ABarrilManager::SpawnBarrilHielo()
 					{
 						BarrilHielo->Destroy();
 					}
-				}, 5.0f, false); // 10 segundos de vida
+				}, 5.0f, false); // 5 segundos de vida
 		}
 	}
 }
+
 
 void ABarrilManager::SpawnBarrilViscoso()
 {
@@ -248,4 +193,77 @@ void ABarrilManager::SpawnBarrilViscoso()
 	}
 }
 
+void ABarrilManager::AplicarDecoradorEncender()
+{
+	if (BarrilesFuego.Num() > 0)
+	{
+		// Selecciona un barril de fuego aleatorio
+		int32 Index = FMath::RandRange(0, BarrilesFuego.Num() - 1);
+		AActor* BarrilFuego = BarrilesFuego[Index];
+		if (BarrilFuego)
+		{
+			// Crea un decorador de encender
+			ABarrilFuegoEncenderDecorator* DecoradorEncender = GetWorld()->SpawnActor<ABarrilFuegoEncenderDecorator>(ABarrilFuegoEncenderDecorator::StaticClass());
+			if (DecoradorEncender)
+			{
+				// Configura el decorador con el barril de fuego
+				DecoradorEncender->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
+				// Aplica el decorador
+				DecoradorEncender->Rodar();
+			}
+		}
+	}
+
+}
+
+void ABarrilManager::AplicarDecoradorExplota()
+{	
+	if (BarrilesFuego.Num() > 0)
+	{
+		// Selecciona un barril de fuego aleatorio
+		int32 Index = FMath::RandRange(0, BarrilesFuego.Num() - 1);
+		AActor* BarrilFuego = BarrilesFuego[Index];
+		if (BarrilFuego)
+		{
+			// Crea un decorador de explota
+			ABarrilFuegoExplotaDecorator* DecoradorExplota = GetWorld()->SpawnActor<ABarrilFuegoExplotaDecorator>(ABarrilFuegoExplotaDecorator::StaticClass());
+			if (DecoradorExplota)
+			{
+				// Configura el decorador con el barril de fuego
+				DecoradorExplota->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
+				// Aplica el decorador
+				DecoradorExplota->Rodar();
+			}
+		}
+	}
+}
+
+void ABarrilManager::AplicarDecoradorQuema()
+{
+	if (BarrilesFuego.Num() > 0)
+	{
+		// Selecciona un barril de fuego aleatorio
+		int32 Index = FMath::RandRange(0, BarrilesFuego.Num() - 1);
+		AActor* BarrilFuego = BarrilesFuego[Index];
+		if (BarrilFuego)
+		{
+			// Crea un decorador de quema
+			ABarrilFuegoQuemaDecorator* DecoradorQuema = GetWorld()->SpawnActor<ABarrilFuegoQuemaDecorator>(ABarrilFuegoQuemaDecorator::StaticClass());
+			if (DecoradorQuema)
+			{
+				// Configura el decorador con el barril de fuego
+				DecoradorQuema->SetBarril(Cast<IBarrilInterface>(BarrilFuego));
+				// Aplica el decorador
+				DecoradorQuema->Rodar();
+			}
+		}
+	}
+
+}
+
+void ABarrilManager::AplicarDecoradorAleatorio()
+{
+
+
+}
 

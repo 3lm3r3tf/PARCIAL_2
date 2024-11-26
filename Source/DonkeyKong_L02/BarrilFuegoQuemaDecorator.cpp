@@ -28,6 +28,6 @@ void ABarrilFuegoQuemaDecorator::Tick(float DeltaTime)
 void ABarrilFuegoQuemaDecorator::Rodar()
 {
 	Super::Rodar();
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, TEXT("¡El barril de fuego quema todo a su paso!...BarrilFuegoQuemaDecorator"));
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("¡El barril de fuego quema todo a su paso!...BarrilFuegoQuemaDecorator"));
 }
 

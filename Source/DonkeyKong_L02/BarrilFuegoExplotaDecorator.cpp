@@ -7,5 +7,5 @@
 void ABarrilFuegoExplotaDecorator::Rodar()
 {
 	Super::Rodar();
-	GEngine->AddOnScreenDebugMessage(-1, 20.0f, FColor::Red, TEXT("¡El barril de fuego explota! ..BarrilFuegoExplotaDecorator "));
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("¡El barril de fuego explota! ..BarrilFuegoExplotaDecorator "));
 }
